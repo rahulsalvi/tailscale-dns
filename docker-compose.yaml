@@ -28,6 +28,3 @@ secrets:
 networks:
   default:
     enable_ipv6: true
-    ipam:
-      config:
-        - subnet: fd24:8ef9:c82b:0003::/64
