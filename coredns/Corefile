@@ -1,0 +1,7 @@
+{$URL_PREFIX}.{$URL} {
+    tailscale {$URL_PREFIX}.{$URL} {
+      import /run/secrets/coredns_authkey
+    }
+    log
+    errors
+}

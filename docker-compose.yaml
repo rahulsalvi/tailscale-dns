@@ -1,0 +1,33 @@
+---
+name: ${NAME}
+services:
+  tailscale:
+    image: ghcr.io/tailscale/tailscale:latest
+    environment:
+      - TS_AUTHKEY=file:/run/secrets/ns_authkey
+      - TS_HOSTNAME=${NAME}
+    secrets:
+      - ns_authkey
+    restart: unless-stopped
+  coredns:
+    build: ./coredns
+    environment:
+      - URL=${URL}
+      - URL_PREFIX=${URL_PREFIX}
+    depends_on:
+      - tailscale
+    network_mode: service:tailscale
+    secrets:
+      - coredns_authkey
+    restart: unless-stopped
+secrets:
+  ns_authkey:
+    environment: "NS_AUTHKEY"
+  coredns_authkey:
+    environment: "COREDNS_AUTHKEY"
+networks:
+  default:
+    enable_ipv6: true
+    ipam:
+      config:
+        - subnet: fd24:8ef9:c82b:0003::/64
