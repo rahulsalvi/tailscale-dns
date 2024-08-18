@@ -39,13 +39,10 @@ echo "https://dash.cloudflare.com/profile/api-tokens"
 CF_API_TOKEN=$(gum input --password)
 export CF_API_TOKEN
 
-echo "Checking whether ${NAME} is currently online"
 if tailscale ip "${NAME}" >/dev/null 2>&1; then
 	echo "${NAME} seems to already exist. You should remove it before continuing"
 	echo "https://login.tailscale.com/admin/machines"
 	exit 1
-else
-	echo "${NAME} does not appear to already exist"
 fi
 
 echo "Generating tailscale auth keys"
