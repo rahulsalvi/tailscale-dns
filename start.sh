@@ -24,6 +24,12 @@ fi
 
 echo "Managing ${NAME}.${URL_PREFIX}.${URL}"
 
+if tailscale ip "${NAME}" >/dev/null 2>&1; then
+	echo "${NAME} seems to already exist. You should remove it before continuing"
+	echo "https://login.tailscale.com/admin/machines"
+	exit 1
+fi
+
 echo "Enter your tailscale API client ID"
 echo "https://login.tailscale.com/admin/settings/oauth"
 TS_API_CLIENT_ID=$(gum input --password)
@@ -38,12 +44,6 @@ echo "Enter your cloudflare API token"
 echo "https://dash.cloudflare.com/profile/api-tokens"
 CF_API_TOKEN=$(gum input --password)
 export CF_API_TOKEN
-
-if tailscale ip "${NAME}" >/dev/null 2>&1; then
-	echo "${NAME} seems to already exist. You should remove it before continuing"
-	echo "https://login.tailscale.com/admin/machines"
-	exit 1
-fi
 
 echo "Generating tailscale auth keys"
 NS_AUTHKEY=$(get-authkey -ephemeral -preauth -tags tag:nameserver)
