@@ -1,20 +1,30 @@
 # tailscale-dns
-My setup for resolving DNS names to tailscale addresses. The start script handles generating tailscale auth keys, bringing up the system, and creating/updating cloudflare DNS records.
+My setup for resolving DNS names to tailscale addresses. The start script generates tailscale auth keys and brings up the system.
 
 Based on work from [willnorris/ipn-dns](https://github.com/willnorris/ipn-dns) and uses the plugin [damomurf/coredns-tailscale](https://github.com/damomurf/coredns-tailscale)
 
 ## Running
 ```
-./start.sh
+make start
 # follow the prompts
-# you will need tokens from tailscale and cloudflare
+# you will need an oauth client ID and secret from tailscale
+```
+
+## Updating
+```
+make update
+# follow the prompts
+# you will need an oauth client ID and secret from tailscale
 ```
 
 ## Stopping
 ```sh
 # bring down containers
-docker compose down
-# (optional) remove .env file if starting over cleanly
-rm .env
+make down
+# (optional) clean up all resources
+# WARNING: this will prune docker volumes that aren't being used
+make clean
 ```
-If you don't intend on restarting the server, you should clean up the DNS records using the cloudflare dashboard.
+
+## DNS Records
+I now manage these externally using OpenTofu, but you can use flarectl to create the required records.
