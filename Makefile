@@ -1,7 +1,7 @@
 .DEFAULT_GOAL := start
 
 start:
-	./start.sh
+	@./start.sh
 
 down:
 	docker compose down --remove-orphans

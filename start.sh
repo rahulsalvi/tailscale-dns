@@ -20,6 +20,7 @@ if [ -z "$NAME" ]; then
 	echo "Enter a valid name"
 	exit 1
 fi
+export NAME
 
 if tailscale ip "${NAME}" >/dev/null 2>&1; then
 	echo "${NAME} seems to already exist. You should remove it before continuing"
@@ -32,12 +33,14 @@ if [ -z "$DOMAIN" ]; then
 	echo "Enter a valid domain"
 	exit 1
 fi
+export DOMAIN
 
 [ ! -v DOMAIN_PREFIX ] && DOMAIN_PREFIX=$(gum input --placeholder="Enter the domain prefix (e.g. internal)")
 if [ -z "$DOMAIN_PREFIX" ]; then
 	echo "Enter a valid prefix"
 	exit 1
 fi
+export DOMAIN_PREFIX
 
 echo "Managing ${NAME}.${DOMAIN_PREFIX}.${DOMAIN}"
 
@@ -58,7 +61,7 @@ export NS_AUTHKEY
 COREDNS_AUTHKEY="authkey $(get-authkey -ephemeral -preauth -tags tag:coredns)"
 export COREDNS_AUTHKEY
 
-gum spin --title "Starting up" -- docker compose up -d --build
+gum spin --title "Starting up" --show-output -- docker compose up -d --build
 
 if gum confirm "Would you like to write settings to .env?"; then
 	{
