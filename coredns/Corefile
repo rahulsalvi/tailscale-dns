@@ -1,5 +1,5 @@
-{$URL_PREFIX}.{$URL} {
-    tailscale {$URL_PREFIX}.{$URL} {
+{$DOMAIN_PREFIX}.{$DOMAIN} {
+    tailscale {$DOMAIN_PREFIX}.{$DOMAIN} {
       import /run/secrets/coredns_authkey
     }
     log

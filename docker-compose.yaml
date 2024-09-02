@@ -12,8 +12,8 @@ services:
   coredns:
     build: ./coredns
     environment:
-      - URL=${URL}
-      - URL_PREFIX=${URL_PREFIX}
+      - DOMAIN=${DOMAIN}
+      - DOMAIN_PREFIX=${DOMAIN_PREFIX}
     depends_on:
       - tailscale
     network_mode: service:tailscale
