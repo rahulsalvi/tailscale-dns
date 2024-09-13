@@ -17,6 +17,13 @@ make update
 # you will need an oauth client ID and secret from tailscale
 ```
 
+### Updating CoreDNS
+```
+cd coredns
+go get -u
+go mod tidy
+```
+
 ## Stopping
 ```sh
 # bring down containers
