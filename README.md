@@ -6,7 +6,7 @@ Based on work from [willnorris/ipn-dns](https://github.com/willnorris/ipn-dns) a
 ## Running
 ```
 # put a unique ID into the .env file
-echo X >.env
+echo ID=X >.env
 # create two authkeys and put them in ts_authkey.txt and coredns_authkey.txt
 # ephemeral, pre-approved, tags:nameserver,authoritative
 echo $TS_AUTHKEY >ts_authkey.txt
