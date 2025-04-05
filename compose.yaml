@@ -1,0 +1,50 @@
+---
+name: ns${ID}
+services:
+  tailscale:
+    image: ghcr.io/tailscale/tailscale:latest
+    environment:
+      - TS_AUTHKEY=file:/run/secrets/ts_authkey
+      - TS_HOSTNAME=ns${ID}
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_USERSPACE=false
+      - TS_ACCEPT_DNS=true
+    volumes:
+      - ts_state:/var/lib/tailscale
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - NET_ADMIN
+    secrets:
+      - ts_authkey
+    healthcheck:
+      test: [ "CMD-SHELL", "tailscale status" ]
+      interval: 10s
+      timeout: 5s
+      retries: 60
+    restart: unless-stopped
+  coredns:
+    image: ghcr.io/damomurf/coredns-tailscale:latest
+    environment:
+      - ID=${ID}
+    volumes:
+      - ./Corefile:/Corefile:ro
+      - coredns_state:/root
+    secrets:
+      - coredns_authkey
+    depends_on:
+      tailscale:
+        condition: service_healthy
+    network_mode: service:tailscale
+    restart: unless-stopped
+secrets:
+  ts_authkey:
+    file: ./ts_authkey.txt
+  coredns_authkey:
+    file: ./coredns_authkey.txt
+volumes:
+  ts_state:
+  coredns_state:
+networks:
+  default:
+    enable_ipv6: true

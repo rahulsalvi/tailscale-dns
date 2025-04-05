@@ -1,7 +1,0 @@
-{$DOMAIN_PREFIX}.{$DOMAIN} {
-    tailscale {$DOMAIN_PREFIX}.{$DOMAIN} {
-      import /run/secrets/coredns_authkey
-    }
-    log
-    errors
-}

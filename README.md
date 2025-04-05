@@ -1,36 +1,34 @@
 # tailscale-dns
-My setup for resolving DNS names to tailscale addresses. The start script generates tailscale auth keys and brings up the system.
+My setup for resolving DNS names to tailscale addresses.
 
 Based on work from [willnorris/ipn-dns](https://github.com/willnorris/ipn-dns) and uses the plugin [damomurf/coredns-tailscale](https://github.com/damomurf/coredns-tailscale)
 
 ## Running
 ```
-make start
-# follow the prompts
-# you will need an oauth client ID and secret from tailscale
+# put a unique ID into the .env file
+echo X >.env
+# create two authkeys and put them in ts_authkey.txt and coredns_authkey.txt
+# ephemeral, pre-approved, tags:nameserver,authoritative
+echo $TS_AUTHKEY >ts_authkey.txt
+# the format is slightly different here
+# ephemeral, pre-approved, tags:nameserver,coredns
+echo authkey $COREDNS_AUTHKEY >coredns_authkey.txt
+# start
+docker compose up
 ```
 
 ## Updating
 ```
-make update
-# follow the prompts
-# you will need an oauth client ID and secret from tailscale
-```
-
-### Updating CoreDNS
-```
-cd coredns
-go get -u
-go mod tidy
+docker compose pull && docker compose up
 ```
 
 ## Stopping
 ```sh
 # bring down containers
-make down
+docker compose down
 # (optional) clean up all resources
 # WARNING: this will prune docker volumes that aren't being used
-make clean
+docker system prune -a --volumes
 ```
 
 ## DNS Records
