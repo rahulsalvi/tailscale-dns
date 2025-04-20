@@ -10,8 +10,7 @@ services:
     environment:
       - ID=${ID}
     configs:
-      - source: Corefile
-        target: /Corefile:ro
+      - Corefile
     volumes:
       - coredns_state:/root
     secrets:
