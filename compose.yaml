@@ -15,11 +15,10 @@ services:
       - coredns_state:/root
     secrets:
       - coredns_authkey
-    depends_on:
-      tailscale:
-        condition: service_healthy
-    network_mode: service:tailscale
     restart: unless-stopped
+    extends:
+      file: ext/docker-compose-snippets/tailscale-app-base.yaml
+      service: tailscale-app-base
 
 configs:
   Corefile:
