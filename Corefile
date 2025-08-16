@@ -1,7 +1,7 @@
 ipn.rahulsalvi.com {
     tailscale ipn.rahulsalvi.com {
-      hostname coredns{$ID}
-      import /run/secrets/coredns_authkey
+      hostname coredns-{$NAME}
+      authkey {$COREDNS_AUTHKEY}
     }
     log
     errors

@@ -1,5 +1,6 @@
 # vim: ft=yaml.docker-compose
-name: ns${ID}
+---
+name: ns
 
 include:
   - ext/docker-compose-snippets/tailscale.yaml
@@ -8,13 +9,12 @@ services:
   coredns:
     image: ghcr.io/damomurf/coredns-tailscale:latest
     environment:
-      - ID=${ID}
+      NAME: ${COMPOSE_PROJECT_NAME}
+      COREDNS_AUTHKEY: ${COREDNS_AUTHKEY}
     configs:
       - Corefile
     volumes:
       - coredns_state:/root
-    secrets:
-      - coredns_authkey
     restart: unless-stopped
     extends:
       file: ext/docker-compose-snippets/tailscale-app-base.yaml
@@ -23,12 +23,6 @@ services:
 configs:
   Corefile:
     file: ./Corefile
-
-secrets:
-  ts_authkey:
-    file: ./ts_authkey.txt
-  coredns_authkey:
-    file: ./coredns_authkey.txt
 
 volumes:
   coredns_state:
