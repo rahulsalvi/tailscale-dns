@@ -7,7 +7,7 @@ include:
 
 services:
   coredns:
-    image: ghcr.io/damomurf/coredns-tailscale:latest
+    image: ghcr.io/damomurf/coredns-tailscale:v0.4.0
     environment:
       NAME: ${COMPOSE_PROJECT_NAME}
       COREDNS_AUTHKEY: ${COREDNS_AUTHKEY}
